@@ -225,66 +225,131 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile nav drawer */}
-      {mobileOpen && (
-        <div
-          className="glass"
+      {/* Mobile Glassmorphism Overlay Menu */}
+      <div
+        className="mobile-nav-overlay"
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 9999,
+          background: "var(--overlay)",
+          backdropFilter: "blur(32px)",
+          WebkitBackdropFilter: "blur(32px)",
+          display: "flex",
+          flexDirection: "column",
+          padding: "96px 32px 40px",
+          opacity: mobileOpen ? 1 : 0,
+          pointerEvents: mobileOpen ? "auto" : "none",
+          transform: mobileOpen ? "translateY(0) scale(1)" : "translateY(-16px) scale(0.98)",
+          transition: "opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+          overflowY: "auto",
+        }}
+      >
+        {/* Close Button */}
+        <button
+          onClick={() => setMobileOpen(false)}
           style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 9999,
+            position: "absolute",
+            top: 24,
+            right: 24,
+            width: 44,
+            height: 44,
+            borderRadius: "50%",
+            background: "var(--surface-elevated)",
+            border: "1px solid var(--border-subtle)",
+            color: "var(--text-high)",
             display: "flex",
-            flexDirection: "column",
-            padding: "100px 40px 40px",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "transform 0.3s ease",
           }}
+          aria-label="Close menu"
         >
-          <button
-            onClick={() => setMobileOpen(false)}
-            style={{
-              position: "absolute",
-              top: 20,
-              right: 20,
-              background: "none",
-              border: "none",
-              color: "var(--text-high)",
-              cursor: "pointer",
-            }}
-          >
-            <X size={28} />
-          </button>
+          <X size={24} />
+        </button>
 
-          {navLinks.map((link) => (
-            <div key={link.name} style={{ marginBottom: 8 }}>
-              <Link
-                href={link.href}
-                onClick={() => !link.dropdown && setMobileOpen(false)}
+        {/* Mobile Navigation Links with Staggered Slide Animation */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {navLinks.map((link, idx) => (
+            <div
+              key={link.name}
+              style={{
+                opacity: mobileOpen ? 1 : 0,
+                transform: mobileOpen ? "translateY(0)" : "translateY(24px)",
+                transition: `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${0.08 + idx * 0.05}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${0.08 + idx * 0.05}s`,
+              }}
+            >
+              <div
                 style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: 32,
-                  fontWeight: 600,
-                  color: "var(--text-high)",
-                  display: "block",
-                  padding: "12px 0",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "14px 0",
                   borderBottom: "1px solid var(--border-subtle)",
                 }}
               >
-                {link.name}
-              </Link>
-              {link.dropdown && (
-                <div style={{ paddingLeft: 20, paddingTop: 8 }}>
+                <Link
+                  href={link.href}
+                  onClick={() => !link.dropdown && setMobileOpen(false)}
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: 26,
+                    fontWeight: 600,
+                    color: "var(--text-high)",
+                    flex: 1,
+                  }}
+                >
+                  {link.name}
+                </Link>
+                {link.dropdown && (
+                  <button
+                    onClick={() => setServicesOpen(!servicesOpen)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "var(--accent)",
+                      cursor: "pointer",
+                      padding: 8,
+                    }}
+                    aria-label="Toggle services submenu"
+                  >
+                    <ChevronDown
+                      size={22}
+                      style={{
+                        transform: servicesOpen ? "rotate(180deg)" : "rotate(0)",
+                        transition: "transform 0.3s ease",
+                      }}
+                    />
+                  </button>
+                )}
+              </div>
+
+              {/* Mobile Submenu Dropdown */}
+              {link.dropdown && servicesOpen && (
+                <div
+                  style={{
+                    paddingTop: 12,
+                    paddingBottom: 12,
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 8,
+                  }}
+                >
                   {services.map((service) => (
                     <Link
                       key={service.slug}
                       href={`/services/${service.slug}`}
                       onClick={() => setMobileOpen(false)}
                       style={{
-                        display: "block",
-                        fontSize: 16,
-                        color: "var(--text-muted)",
-                        padding: "8px 0",
+                        padding: "10px 14px",
+                        fontSize: 13,
+                        fontWeight: 500,
+                        color: "var(--text-high)",
+                        background: "var(--surface-elevated)",
+                        borderRadius: "var(--radius-sm)",
+                        border: "1px solid var(--border-subtle)",
+                        transition: "all 0.2s ease",
                       }}
                     >
                       {service.name}
@@ -294,25 +359,55 @@ export function Header() {
               )}
             </div>
           ))}
-
-          <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 16 }}>
-            <a
-              href="tel:+447490180898"
-              style={{ display: "flex", alignItems: "center", gap: 8, color: "var(--accent)", fontSize: 16 }}
-            >
-              <Phone size={18} />
-              +44 7490 180898
-            </a>
-            <a
-              href="mailto:info@hmeliteinteriors.co.uk"
-              style={{ display: "flex", alignItems: "center", gap: 8, color: "var(--text-muted)", fontSize: 14 }}
-            >
-              <Mail size={18} />
-              info@hmeliteinteriors.co.uk
-            </a>
-          </div>
         </div>
-      )}
+
+        {/* Contact Info Footer */}
+        <div
+          style={{
+            marginTop: "auto",
+            paddingTop: 32,
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+            opacity: mobileOpen ? 1 : 0,
+            transform: mobileOpen ? "translateY(0)" : "translateY(24px)",
+            transition: `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s`,
+          }}
+        >
+          <a
+            href="tel:+447490180898"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              color: "var(--text-high)",
+              fontSize: 15,
+              fontWeight: 600,
+              padding: "14px 20px",
+              background: "var(--surface-elevated)",
+              borderRadius: "var(--radius)",
+              border: "1px solid var(--border-subtle)",
+            }}
+          >
+            <Phone size={18} style={{ color: "var(--accent)" }} />
+            +44 7490 180898
+          </a>
+          <a
+            href="mailto:info@hmeliteinteriors.co.uk"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              color: "var(--text-muted)",
+              fontSize: 14,
+              padding: "8px 20px",
+            }}
+          >
+            <Mail size={18} style={{ color: "var(--accent)" }} />
+            info@hmeliteinteriors.co.uk
+          </a>
+        </div>
+      </div>
 
       <style>{`
         .nav-link:hover { color: var(--accent) !important; }
