@@ -1,184 +1,143 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowDown } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const servicesList = [
-  { name: "Space", image: "/images/living-room/main.jpg" },
-  { name: "Kitchen", image: "/images/kitchen/main.jpg" },
-  { name: "Bedroom", image: "/images/bedroom/main.jpg" },
-  { name: "Media Wall", image: "/images/living-room/living-1.jpg" },
-  { name: "Decor Wall", image: "/images/living-room/living-3.jpg" },
-  { name: "Walk In Wardrobe", image: "/images/bedroom/bedroom-5.jpg" },
-  { name: "Home Office", image: "/images/office-study/main.jpg" },
-  { name: "Loft Wardrobe", image: "/images/bedroom/bedroom-6.jpg" },
-  { name: "Understairs", image: "/images/understairs/main.jpg" },
+  {
+    number: "01",
+    name: "SPACE",
+    subtitle: "Interior Design & Architecture",
+    description:
+      "Creating spaces that inspire living as it is. Crafted with care and luxury design for discerning UK homeowners.",
+    image: "/images/living-room/main.jpg",
+  },
+  {
+    number: "02",
+    name: "KITCHEN",
+    subtitle: "Bespoke Fitted Kitchens",
+    description:
+      "Precision-crafted fitted kitchens featuring premium materials, intelligent storage, and seamless finishes.",
+    image: "/images/kitchen/main.jpg",
+  },
+  {
+    number: "03",
+    name: "BEDROOM",
+    subtitle: "Fitted Wardrobes & Suites",
+    description:
+      "Serene sanctuary designs with made-to-measure soft-close wardrobes and integrated ambient lighting.",
+    image: "/images/bedroom/main.jpg",
+  },
+  {
+    number: "04",
+    name: "MEDIA WALL",
+    subtitle: "Custom Entertainment Spaces",
+    description:
+      "Architectural focal features integrating modern acoustic panelling, LED backlighting, and hidden wiring.",
+    image: "/images/living-room/living-2.jpg",
+  },
+  {
+    number: "05",
+    name: "HOME OFFICE",
+    subtitle: "Study & Workspaces",
+    description:
+      "Ergonomic, elegant fitted study furniture tailored to your exact dimensions and professional style.",
+    image: "/images/office-study/main.jpg",
+  },
+  {
+    number: "06",
+    name: "UNDERSTAIRS",
+    subtitle: "Smart Storage Solutions",
+    description:
+      "Transform unused architectural nooks into beautiful pull-out storage solutions and wine displays.",
+    image: "/images/understairs/main.jpg",
+  },
 ];
 
 export function HeroMorph() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
-  const spaceWordRef = useRef<HTMLSpanElement>(null);
-  const subRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const wordRef = useRef<HTMLSpanElement>(null);
+  const numberRef = useRef<HTMLDivElement>(null);
+  const descRef = useRef<HTMLDivElement>(null);
 
   const [serviceIndex, setServiceIndex] = useState(0);
+  const [isManual, setIsManual] = useState(false);
 
-  const activeIndexRef = useRef(0);
-  const prevIndexRef = useRef(0);
-  const blendRef = useRef({ factor: 1 });
-  const imagesRef = useRef<HTMLImageElement[]>([]);
-  const redrawRef = useRef<(() => void) | null>(null);
+  const currentService = servicesList[serviceIndex];
 
-  // Preload all background images on mount
+  // Auto-play interval for cycling services
   useEffect(() => {
-    imagesRef.current = servicesList.map((item) => {
-      const img = new Image();
-      img.src = item.image;
-      img.onload = () => {
-        if (redrawRef.current) redrawRef.current();
-      };
-      return img;
-    });
-  }, []);
+    if (isManual) return;
 
-  // Sync image crossfade when serviceIndex changes
-  useEffect(() => {
-    prevIndexRef.current = activeIndexRef.current;
-    activeIndexRef.current = serviceIndex;
-    blendRef.current.factor = 0;
-
-    gsap.to(blendRef.current, {
-      factor: 1,
-      duration: 0.8,
-      ease: "power2.inOut",
-      onUpdate: () => {
-        if (redrawRef.current) redrawRef.current();
-      },
-    });
-  }, [serviceIndex]);
-
-  // Heading text cycle interval
-  useEffect(() => {
     const interval = setInterval(() => {
-      const el = spaceWordRef.current;
-      if (!el) return;
+      nextService();
+    }, 4500);
 
-      gsap.to(el, {
-        y: -20,
+    return () => clearInterval(interval);
+  }, [serviceIndex, isManual]);
+
+  const animateTextChange = (newIndex: number) => {
+    const wordEl = wordRef.current;
+    const numEl = numberRef.current;
+
+    if (wordEl) {
+      gsap.to(wordEl, {
+        y: -30,
         opacity: 0,
         duration: 0.3,
         ease: "power2.in",
         onComplete: () => {
-          setServiceIndex((prev) => (prev + 1) % servicesList.length);
-          gsap.set(el, { y: 20, opacity: 0 });
-          gsap.to(el, {
+          setServiceIndex(newIndex);
+          gsap.set(wordEl, { y: 30, opacity: 0 });
+          gsap.to(wordEl, {
             y: 0,
             opacity: 1,
-            duration: 0.4,
+            duration: 0.5,
             ease: "power3.out",
           });
         },
       });
-    }, 2800);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Canvas drawing setup
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      drawFrame();
-    };
-    window.addEventListener("resize", resize);
-
-    function drawFrame() {
-      if (!ctx || !canvas) return;
-      const w = canvas.width;
-      const h = canvas.height;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // Background fill
-      ctx.fillStyle = "#0B0B0B";
-      ctx.fillRect(0, 0, w, h);
-
-      const factor = blendRef.current.factor;
-      const currImg = imagesRef.current[activeIndexRef.current];
-      const prevImg = imagesRef.current[prevIndexRef.current];
-
-      const drawScaled = (image: HTMLImageElement, alpha: number) => {
-        if (!image || !image.complete) return;
-        ctx.globalAlpha = alpha;
-        const scale = Math.max(w / image.width, h / image.height);
-        const x = (w - image.width * scale) / 2;
-        const y = (h - image.height * scale) / 2;
-        ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
-      };
-
-      if (factor < 1 && prevImg && prevIndexRef.current !== activeIndexRef.current) {
-        drawScaled(prevImg, 1 - factor);
-      }
-      if (currImg) {
-        drawScaled(currImg, factor);
-      }
-
-      ctx.globalAlpha = 1;
+    } else {
+      setServiceIndex(newIndex);
     }
 
-    redrawRef.current = drawFrame;
-    resize();
+    if (numEl) {
+      gsap.to(numEl, {
+        scale: 0.9,
+        opacity: 0,
+        duration: 0.3,
+        onComplete: () => {
+          gsap.to(numEl, {
+            scale: 1,
+            opacity: 0.06,
+            duration: 0.5,
+            ease: "power3.out",
+          });
+        },
+      });
+    }
+  };
 
-    const gCtx = gsap.context(() => {
-      // Headline entrance animation
-      const entranceTl = gsap.timeline({ delay: 0.5 });
+  const nextService = () => {
+    const nextIdx = (serviceIndex + 1) % servicesList.length;
+    animateTextChange(nextIdx);
+  };
 
-      entranceTl
-        .fromTo(
-          headlineRef.current,
-          { y: 60, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
-        )
-        .fromTo(
-          subRef.current,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
-          "-=0.6"
-        )
-        .fromTo(
-          ctaRef.current,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
-          "-=0.5"
-        )
-        .fromTo(
-          scrollIndicatorRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.6 },
-          "-=0.3"
-        );
-    }, sectionRef);
+  const prevService = () => {
+    const prevIdx = (serviceIndex - 1 + servicesList.length) % servicesList.length;
+    animateTextChange(prevIdx);
+  };
 
-    return () => {
-      gCtx.revert();
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
+  const selectService = (idx: number) => {
+    setIsManual(true);
+    animateTextChange(idx);
+  };
 
   return (
     <section
@@ -187,167 +146,316 @@ export function HeroMorph() {
       style={{
         position: "relative",
         width: "100%",
-        height: "100vh",
-        overflow: "hidden",
+        minHeight: "100vh",
         background: "var(--surface)",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "stretch",
       }}
     >
-      {/* Background Rotating Canvas */}
-      <canvas
-        ref={canvasRef}
+      {/* 2-Column Split Screen Container */}
+      <div
+        className="hero-split-grid"
         style={{
-          position: "absolute",
-          inset: 0,
           width: "100%",
-          height: "100%",
-        }}
-      />
-
-      {/* Theme Responsive Overlay (Black in dark mode, subtle White in light mode) */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "var(--hero-overlay)",
-          backdropFilter: "blur(2px)",
-          transition: "background var(--theme-transition)",
-          zIndex: 1,
-        }}
-      />
-
-      {/* Hero Content Overlay */}
-      <div
-        ref={overlayRef}
-        style={{
-          position: "absolute",
-          inset: 0,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          padding: "0 var(--container-padding)",
-          zIndex: 2,
+          display: "grid",
+          gridTemplateColumns: "clamp(440px, 48%, 680px) 1fr",
+          minHeight: "100vh",
         }}
       >
-        <div ref={headlineRef} style={{ opacity: 0 }}>
-          <div className="eyebrow" style={{ justifyContent: "center", marginBottom: 28 }}>
-            Bespoke Interior Solutions
-          </div>
-          <h1
+        {/* LEFT COLUMN: Editorial Text Panel with Spotlight Glow & Giant Watermark */}
+        <div
+          style={{
+            position: "relative",
+            background: "var(--surface)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "clamp(120px, 12vh, 160px) clamp(24px, 4vw, 64px) clamp(40px, 6vh, 60px)",
+            zIndex: 3,
+            overflow: "hidden",
+            borderRight: "1px solid var(--border-subtle)",
+          }}
+        >
+          {/* Ambient Warm Spotlight Radial Glow */}
+          <div
             style={{
+              position: "absolute",
+              top: "40%",
+              left: "40%",
+              transform: "translate(-50%, -50%)",
+              width: "480px",
+              height: "480px",
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, var(--accent-glow) 0%, rgba(196, 139, 105, 0.08) 45%, transparent 75%)",
+              pointerEvents: "none",
+              zIndex: 0,
+            }}
+          />
+
+          {/* Giant Watermark Index Number behind text */}
+          <div
+            ref={numberRef}
+            style={{
+              position: "absolute",
+              top: "14%",
+              left: "-10px",
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(160px, 22vw, 320px)",
+              fontWeight: 800,
               color: "var(--text-high)",
-              maxWidth: 1300,
-              width: "100%",
-              padding: "0 clamp(20px, 4vw, 64px)",
-              textShadow: "0 2px 30px rgba(0,0,0,0.15)",
-              fontSize: "clamp(30px, 4.5vw, 68px)",
-              lineHeight: 1.3,
-              margin: "0 auto",
+              opacity: 0.06,
+              lineHeight: 0.8,
+              pointerEvents: "none",
+              zIndex: 0,
+              userSelect: "none",
             }}
           >
-            Design Your{" "}
-            <span
-              ref={spaceWordRef}
+            {currentService.number}
+          </div>
+
+          {/* Foreground Editorial Text Content */}
+          <div style={{ position: "relative", zIndex: 2 }}>
+            <div
+              className="eyebrow"
               style={{
+                marginBottom: 20,
                 color: "var(--accent)",
-                display: "inline-block",
-                position: "relative",
-                padding: "0 6px",
-                lineHeight: 1.1,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
               }}
             >
-              {servicesList[serviceIndex].name}
-            </span>
-            ,<br />
-            Elevate Your Lifestyle.
-          </h1>
-        </div>
+              <span
+                style={{
+                  display: "inline-block",
+                  width: 24,
+                  height: 1,
+                  background: "var(--accent)",
+                }}
+              />
+              {currentService.subtitle}
+            </div>
 
-        <div
-          ref={subRef}
-          style={{
-            opacity: 0,
-            marginTop: 28,
-            maxWidth: 560,
-          }}
-        >
-          <p
+            <div ref={headlineRef}>
+              <h1
+                style={{
+                  fontSize: "clamp(36px, 4.5vw, 68px)",
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  color: "var(--text-high)",
+                  marginBottom: 24,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                Design Your
+                <br />
+                <span
+                  ref={wordRef}
+                  style={{
+                    color: "var(--accent)",
+                    display: "inline-block",
+                    marginTop: 4,
+                  }}
+                >
+                  {currentService.name}
+                </span>
+              </h1>
+            </div>
+
+            <div ref={descRef}>
+              <p
+                style={{
+                  fontSize: "clamp(14px, 1.2vw, 17px)",
+                  color: "var(--text-muted)",
+                  lineHeight: 1.7,
+                  maxWidth: 480,
+                  marginBottom: 36,
+                }}
+              >
+                {currentService.description}
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+              <a href="/contact" className="btn-primary">
+                Book Consultation
+                <ArrowRight size={16} />
+              </a>
+              <a href="/services" className="btn-outline">
+                Explore All
+              </a>
+            </div>
+          </div>
+
+          {/* Slide Dots / Counter Pagination */}
+          <div
             style={{
-              color: "var(--text-muted)",
-              fontSize: "clamp(16px, 2vw, 20px)",
-              lineHeight: 1.7,
-              margin: "0 auto",
+              marginTop: "auto",
+              paddingTop: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              position: "relative",
+              zIndex: 2,
             }}
           >
-            Premium fitted kitchens, bedrooms, and bespoke interiors —
-            crafted to perfection in the United Kingdom.
-          </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              {servicesList.map((item, idx) => (
+                <button
+                  key={item.name}
+                  onClick={() => selectService(idx)}
+                  aria-label={`Go to ${item.name}`}
+                  style={{
+                    width: idx === serviceIndex ? 32 : 10,
+                    height: 8,
+                    borderRadius: 4,
+                    background: idx === serviceIndex ? "var(--accent)" : "var(--border-subtle)",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                  }}
+                />
+              ))}
+            </div>
+
+            <div
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: 13,
+                color: "var(--text-muted)",
+                letterSpacing: "0.1em",
+              }}
+            >
+              <span style={{ color: "var(--accent)", fontWeight: 700 }}>
+                {currentService.number}
+              </span>
+              <span style={{ opacity: 0.4, margin: "0 4px" }}>/</span>
+              <span>0{servicesList.length}</span>
+            </div>
+          </div>
         </div>
 
+        {/* RIGHT COLUMN: Rotating Photography Showcase Frame with Parallax Imagery */}
         <div
-          ref={ctaRef}
           style={{
-            opacity: 0,
-            marginTop: 44,
-            display: "flex",
-            gap: 16,
-            flexWrap: "wrap",
-            justifyContent: "center",
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            minHeight: "100vh",
+            overflow: "hidden",
+            background: "#080808",
           }}
         >
-          <a href="/services" className="btn-primary">
-            Explore Our Work
-          </a>
-          <a
-            href="/contact"
-            className="btn-outline"
+          {/* Rotating Image Crossfade Layers */}
+          {servicesList.map((item, idx) => {
+            const isActive = idx === serviceIndex;
+            return (
+              <div
+                key={item.name}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  opacity: isActive ? 1 : 0,
+                  transform: isActive ? "scale(1)" : "scale(1.06)",
+                  transition:
+                    "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                  zIndex: isActive ? 1 : 0,
+                }}
+              >
+                <Image
+                  src={item.image}
+                  alt={`${item.name} by HM Elite Interiors`}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  priority={idx === 0}
+                  sizes="(max-width: 900px) 100vw, 55vw"
+                />
+                {/* Subtle Theme Vignette */}
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      "linear-gradient(to right, rgba(11,11,11,0.4) 0%, transparent 40%, rgba(0,0,0,0.3) 100%)",
+                  }}
+                />
+              </div>
+            );
+          })}
+
+          {/* Interactive Prev / Next Chevron Navigation Over Image Frame */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 40,
+              right: 40,
+              zIndex: 10,
+              display: "flex",
+              gap: 12,
+            }}
           >
-            Book Consultation
-          </a>
+            <button
+              onClick={() => {
+                setIsManual(true);
+                prevService();
+              }}
+              aria-label="Previous slide"
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: "50%",
+                background: "rgba(11, 11, 11, 0.65)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                color: "#FFFFFF",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <button
+              onClick={() => {
+                setIsManual(true);
+                nextService();
+              }}
+              aria-label="Next slide"
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: "50%",
+                background: "var(--accent)",
+                border: "none",
+                color: "#FFFFFF",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 8px 30px var(--accent-glow)",
+                transition: "all 0.3s ease",
+              }}
+            >
+              <ChevronRight size={22} />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div
-        ref={scrollIndicatorRef}
-        style={{
-          position: "absolute",
-          bottom: 40,
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 8,
-          zIndex: 2,
-          opacity: 0,
-        }}
-      >
-        <span
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--text-muted)",
-          }}
-        >
-          Scroll to explore
-        </span>
-        <ArrowDown
-          size={16}
-          style={{
-            color: "var(--accent)",
-            animation: "bounceDown 2s ease infinite",
-          }}
-        />
-        <style>{`
-          @keyframes bounceDown {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
+      <style>{`
+        @media (max-width: 900px) {
+          .hero-split-grid {
+            grid-template-columns: 1fr !important;
+            min-height: auto !important;
           }
-        `}</style>
-      </div>
+        }
+      `}</style>
     </section>
   );
 }
