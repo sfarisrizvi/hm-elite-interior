@@ -237,59 +237,93 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Glassmorphism Overlay Menu */}
+      {/* Mobile Glassmorphism Overlay Portal */}
       <div
         className="mobile-nav-overlay"
         style={{
           position: "fixed",
-          inset: 0,
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100dvh",
           zIndex: 999999,
           background: "var(--overlay)",
           backdropFilter: "blur(32px)",
           WebkitBackdropFilter: "blur(32px)",
           display: "flex",
           flexDirection: "column",
-          padding: "96px 32px 40px",
+          padding: "24px 24px 32px",
           opacity: mobileOpen ? 1 : 0,
           pointerEvents: mobileOpen ? "auto" : "none",
-          transform: mobileOpen ? "translateY(0) scale(1)" : "translateY(-16px) scale(0.98)",
-          transition: "opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+          transform: mobileOpen ? "translateY(0)" : "translateY(-12px)",
+          transition: "opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
           overflowY: "auto",
+          boxSizing: "border-box",
         }}
       >
-        {/* Close Button */}
-        <button
-          onClick={() => setMobileOpen(false)}
+        {/* Top Header Bar inside Overlay */}
+        <div
           style={{
-            position: "absolute",
-            top: 24,
-            right: 24,
-            width: 44,
-            height: 44,
-            borderRadius: "50%",
-            background: "var(--surface-elevated)",
-            border: "1px solid var(--border-subtle)",
-            color: "var(--text-high)",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            transition: "transform 0.3s ease",
+            justifyContent: "space-between",
+            paddingBottom: 24,
+            borderBottom: "1px solid var(--border-subtle)",
+            marginBottom: 24,
           }}
-          aria-label="Close menu"
         >
-          <X size={24} />
-        </button>
+          <Link href="/" onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Image
+              src="/logo.png"
+              alt="HM Elite Interiors"
+              width={38}
+              height={38}
+              style={{ objectFit: "contain" }}
+            />
+            <span
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: 18,
+                fontWeight: 700,
+                color: "var(--text-high)",
+              }}
+            >
+              HM <span style={{ color: "var(--accent)" }}>ELITE</span>
+            </span>
+          </Link>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <LampToggle />
+            <button
+              onClick={() => setMobileOpen(false)}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                background: "var(--surface-elevated)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text-high)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+              aria-label="Close menu"
+            >
+              <X size={22} />
+            </button>
+          </div>
+        </div>
 
         {/* Mobile Navigation Links with Staggered Slide Animation */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1 }}>
           {navLinks.map((link, idx) => (
             <div
               key={link.name}
               style={{
                 opacity: mobileOpen ? 1 : 0,
-                transform: mobileOpen ? "translateY(0)" : "translateY(24px)",
-                transition: `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${0.08 + idx * 0.05}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${0.08 + idx * 0.05}s`,
+                transform: mobileOpen ? "translateY(0)" : "translateY(16px)",
+                transition: `opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${0.06 + idx * 0.04}s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${0.06 + idx * 0.04}s`,
               }}
             >
               <div
@@ -297,7 +331,7 @@ export function Header() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  padding: "14px 0",
+                  padding: "12px 0",
                   borderBottom: "1px solid var(--border-subtle)",
                 }}
               >
@@ -305,8 +339,8 @@ export function Header() {
                   href={link.href}
                   onClick={() => !link.dropdown && setMobileOpen(false)}
                   style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: 26,
+                    fontFamily: "var(--font-body)",
+                    fontSize: 20,
                     fontWeight: 600,
                     color: "var(--text-high)",
                     flex: 1,
@@ -322,12 +356,18 @@ export function Header() {
                       border: "none",
                       color: "var(--accent)",
                       cursor: "pointer",
-                      padding: 8,
+                      padding: "4px 8px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                      fontSize: 13,
+                      fontWeight: 600,
                     }}
                     aria-label="Toggle services submenu"
                   >
+                    <span>Categories</span>
                     <ChevronDown
-                      size={22}
+                      size={18}
                       style={{
                         transform: servicesOpen ? "rotate(180deg)" : "rotate(0)",
                         transition: "transform 0.3s ease",
@@ -341,8 +381,8 @@ export function Header() {
               {link.dropdown && servicesOpen && (
                 <div
                   style={{
-                    paddingTop: 12,
-                    paddingBottom: 12,
+                    paddingTop: 10,
+                    paddingBottom: 10,
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr",
                     gap: 8,
@@ -354,7 +394,7 @@ export function Header() {
                       href={`/services/${service.slug}`}
                       onClick={() => setMobileOpen(false)}
                       style={{
-                        padding: "10px 14px",
+                        padding: "10px 12px",
                         fontSize: 13,
                         fontWeight: 500,
                         color: "var(--text-high)",
@@ -376,14 +416,14 @@ export function Header() {
         {/* Contact Info Footer */}
         <div
           style={{
-            marginTop: "auto",
-            paddingTop: 32,
+            paddingTop: 24,
+            marginTop: 20,
             display: "flex",
             flexDirection: "column",
-            gap: 12,
+            gap: 10,
             opacity: mobileOpen ? 1 : 0,
-            transform: mobileOpen ? "translateY(0)" : "translateY(24px)",
-            transition: `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s`,
+            transform: mobileOpen ? "translateY(0)" : "translateY(16px)",
+            transition: `opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s`,
           }}
         >
           <a
@@ -391,17 +431,18 @@ export function Header() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 12,
-              color: "var(--text-high)",
+              justifyContent: "center",
+              gap: 10,
+              color: "#FFFFFF",
               fontSize: 15,
               fontWeight: 600,
               padding: "14px 20px",
-              background: "var(--surface-elevated)",
+              background: "var(--accent)",
               borderRadius: "var(--radius)",
-              border: "1px solid var(--border-subtle)",
+              boxShadow: "0 6px 20px var(--accent-glow)",
             }}
           >
-            <Phone size={18} style={{ color: "var(--accent)" }} />
+            <Phone size={18} />
             +44 7490 180898
           </a>
           <a
@@ -409,13 +450,14 @@ export function Header() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 12,
+              justifyContent: "center",
+              gap: 8,
               color: "var(--text-muted)",
-              fontSize: 14,
-              padding: "8px 20px",
+              fontSize: 13,
+              padding: "8px 0",
             }}
           >
-            <Mail size={18} style={{ color: "var(--accent)" }} />
+            <Mail size={16} style={{ color: "var(--accent)" }} />
             info@hmeliteinteriors.co.uk
           </a>
         </div>
