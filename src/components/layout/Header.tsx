@@ -92,14 +92,14 @@ export function Header() {
           <Image
             src="/logo.png"
             alt="HM Elite Interiors"
-            width={44}
-            height={44}
+            width={40}
+            height={40}
             style={{ objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))" }}
           />
           <span
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: 20,
+              fontSize: 19,
               fontWeight: 700,
               letterSpacing: "-0.02em",
               color: "var(--text-high)",
@@ -109,12 +109,19 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Desktop Nav */}
+        {/* Desktop Nav: Sleek Floating Glass Capsule Pill */}
         <nav
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 36,
+            gap: 32,
+            background: "var(--surface-card)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            padding: "10px 32px",
+            borderRadius: 30,
+            border: "1px solid var(--border-subtle)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
           }}
           className="desktop-nav"
         >
@@ -159,7 +166,7 @@ export function Header() {
                     position: "absolute",
                     top: "100%",
                     left: -20,
-                    paddingTop: 8,
+                    paddingTop: 12,
                   }}
                 >
                   <div
@@ -197,9 +204,9 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Right side */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          {/* Quick contact */}
+        {/* Right side Actions */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          {/* Phone Badge CTA */}
           <a
             href="tel:+447490180898"
             style={{
@@ -209,9 +216,13 @@ export function Header() {
               color: "var(--text-high)",
               fontSize: 13,
               fontWeight: 600,
-              transition: "color 0.3s ease",
+              padding: "9px 18px",
+              borderRadius: 24,
+              background: "var(--surface-card)",
+              border: "1px solid var(--border-subtle)",
+              transition: "all 0.3s ease",
             }}
-            className="desktop-only"
+            className="desktop-only phone-badge-btn"
           >
             <Phone size={14} style={{ color: "var(--accent)" }} />
             +44 7490 180898

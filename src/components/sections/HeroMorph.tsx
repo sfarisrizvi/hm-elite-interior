@@ -71,17 +71,6 @@ export function HeroMorph() {
 
   const currentService = servicesList[serviceIndex];
 
-  // Auto-play interval for cycling services
-  useEffect(() => {
-    if (isManual) return;
-
-    const interval = setInterval(() => {
-      nextService();
-    }, 4500);
-
-    return () => clearInterval(interval);
-  }, [serviceIndex, isManual]);
-
   const animateTextChange = (newIndex: number) => {
     const wordEl = wordRef.current;
     const numEl = numberRef.current;
@@ -133,6 +122,18 @@ export function HeroMorph() {
     const prevIdx = (serviceIndex - 1 + servicesList.length) % servicesList.length;
     animateTextChange(prevIdx);
   };
+
+  // Auto-play interval for cycling services
+  useEffect(() => {
+    if (isManual) return;
+
+    const interval = setInterval(() => {
+      const nextIdx = (serviceIndex + 1) % servicesList.length;
+      animateTextChange(nextIdx);
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [serviceIndex, isManual]);
 
   const selectService = (idx: number) => {
     setIsManual(true);
