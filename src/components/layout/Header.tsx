@@ -45,6 +45,18 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    // Lock background body scroll when mobile menu is open
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
     // Entrance animation
     gsap.fromTo(
       headerRef.current,
@@ -63,7 +75,7 @@ export function Header() {
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 9990,
+        zIndex: mobileOpen ? 999999 : 99990,
         padding: scrolled ? "14px 0" : "24px 0",
         background: scrolled ? undefined : "transparent",
         backdropFilter: scrolled ? undefined : "none",
@@ -231,7 +243,7 @@ export function Header() {
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: 9999,
+          zIndex: 999999,
           background: "var(--overlay)",
           backdropFilter: "blur(32px)",
           WebkitBackdropFilter: "blur(32px)",
