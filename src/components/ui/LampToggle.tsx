@@ -108,63 +108,76 @@ export function LampToggle() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: 40,
-        height: 72,
+        width: 44,
+        height: 96,
         position: "relative",
       }}
     >
-      <svg width="40" height="68" viewBox="0 0 40 68" fill="none">
+      <svg width="44" height="92" viewBox="0 0 44 92" fill="none">
         {/* Bulb glow */}
         <circle
           ref={glowRef}
-          cx="20"
+          cx="22"
           cy="8"
-          r={isDark ? 6 : 10}
+          r={isDark ? 6 : 11}
           fill="var(--accent)"
-          opacity={isDark ? 0.3 : 0.8}
+          opacity={isDark ? 0.35 : 0.85}
           style={{ filter: "blur(4px)" }}
         />
         {/* Bulb body */}
         <circle
-          cx="20"
+          cx="22"
           cy="8"
-          r="5"
+          r="5.5"
           fill={isDark ? "var(--text-dim)" : "var(--accent)"}
           style={{ transition: "fill 0.3s ease" }}
         />
-        {/* Cord */}
-        <path
-          ref={cordRef}
-          d="M20 0 L20 28 Q20 34 20 38"
-          stroke="var(--text-muted)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          fill="none"
-          style={{ transformOrigin: "20px 13px" }}
-        />
-        {/* Pull knob */}
-        <circle
-          ref={knobRef}
-          cx="20"
-          cy="42"
-          r="4"
-          fill="var(--accent)"
-          stroke="var(--accent)"
-          strokeWidth="1"
-        />
+        {/* Wiggling Cord Group */}
+        <g className="cord-wiggle-group">
+          {/* Cord */}
+          <path
+            ref={cordRef}
+            d="M22 13 L22 52 Q22 58 22 62"
+            stroke="var(--text-muted)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            fill="none"
+          />
+          {/* Pull knob */}
+          <circle
+            ref={knobRef}
+            cx="22"
+            cy="66"
+            r="4.5"
+            fill="var(--accent)"
+            stroke="var(--accent)"
+            strokeWidth="1"
+          />
+        </g>
         {/* Small text indicator */}
         <text
-          x="20"
-          y="60"
+          x="22"
+          y="84"
           textAnchor="middle"
           fill="var(--text-dim)"
-          fontSize="7"
+          fontSize="7.5"
           fontFamily="var(--font-body)"
           letterSpacing="0.1em"
         >
           {isDark ? "DARK" : "LIGHT"}
         </text>
       </svg>
+      <style>{`
+        .cord-wiggle-group {
+          transform-origin: 22px 13px;
+          animation: cordWiggle 3.2s ease-in-out infinite alternate;
+        }
+        @keyframes cordWiggle {
+          0% { transform: rotate(-3deg); }
+          50% { transform: rotate(3deg); }
+          100% { transform: rotate(-2deg); }
+        }
+      `}</style>
     </button>
   );
 }

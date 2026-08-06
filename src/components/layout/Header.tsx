@@ -86,9 +86,19 @@ export function Header() {
         opacity: 0,
       }}
     >
-      <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <div
+        className="header-wrapper-container"
+        style={{
+          width: "100%",
+          padding: "0 clamp(20px, 3.5vw, 56px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 20,
+        }}
+      >
+        {/* Left: Logo aligned with heading */}
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           <Image
             src="/logo.png"
             alt="HM Elite Interiors"
@@ -109,19 +119,21 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Desktop Nav: Sleek Floating Glass Capsule Pill */}
+        {/* Center: Desktop Nav Floating Pill overlapping right image section */}
         <nav
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 32,
+            gap: 28,
             background: "var(--surface-card)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            padding: "10px 32px",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            padding: "10px 28px",
             borderRadius: 30,
             border: "1px solid var(--border-subtle)",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+            boxShadow: "0 10px 32px rgba(0,0,0,0.22)",
+            marginLeft: "auto",
+            marginRight: 20,
           }}
           className="desktop-nav"
         >
@@ -204,31 +216,35 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Right side Actions */}
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          {/* Phone Badge CTA */}
+        {/* Right side Actions: Pulsing Phone CTA & Long Wiggling Lamp Cord */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+          {/* Phone Badge CTA with Loop Pulse Glow Animation */}
           <a
             href="tel:+447490180898"
             style={{
               display: "flex",
               alignItems: "center",
               gap: 8,
-              color: "var(--text-high)",
+              color: "#FFFFFF",
               fontSize: 13,
               fontWeight: 600,
-              padding: "9px 18px",
+              padding: "10px 20px",
               borderRadius: 24,
-              background: "var(--surface-card)",
-              border: "1px solid var(--border-subtle)",
+              background: "var(--accent)",
+              boxShadow: "0 4px 20px var(--accent-glow)",
               transition: "all 0.3s ease",
+              animation: "phonePulse 2.4s ease-in-out infinite",
             }}
             className="desktop-only phone-badge-btn"
           >
-            <Phone size={14} style={{ color: "var(--accent)" }} />
+            <Phone size={14} />
             +44 7490 180898
           </a>
 
-          <LampToggle />
+          {/* Lamp Theme Switcher with extended cord and subtle wiggle */}
+          <div style={{ marginTop: -8 }}>
+            <LampToggle />
+          </div>
 
           {/* Mobile menu toggle */}
           <button
@@ -246,6 +262,19 @@ export function Header() {
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+
+        <style>{`
+          @keyframes phonePulse {
+            0%, 100% {
+              transform: scale(1);
+              box-shadow: 0 4px 20px var(--accent-glow);
+            }
+            50% {
+              transform: scale(1.04);
+              box-shadow: 0 8px 30px var(--accent-glow);
+            }
+          }
+        `}</style>
       </div>
 
       {/* Mobile Glassmorphism Overlay Portal */}

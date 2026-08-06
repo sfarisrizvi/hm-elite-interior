@@ -164,15 +164,15 @@ export function HeroMorph() {
           minHeight: "100vh",
         }}
       >
-        {/* LEFT COLUMN: Editorial Text Panel with Spotlight Glow & Giant Watermark */}
+        {/* LEFT COLUMN: Editorial Text Panel with Spotlight Glow & Bottom Heading */}
         <div
           style={{
             position: "relative",
             background: "var(--surface)",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
-            padding: "clamp(120px, 12vh, 160px) clamp(24px, 4vw, 64px) clamp(40px, 6vh, 60px)",
+            justifyContent: "flex-end",
+            padding: "130px clamp(24px, 4vw, 56px) clamp(36px, 5vh, 64px)",
             zIndex: 3,
             overflow: "hidden",
             borderRight: "1px solid var(--border-subtle)",
@@ -182,7 +182,7 @@ export function HeroMorph() {
           <div
             style={{
               position: "absolute",
-              top: "40%",
+              top: "50%",
               left: "40%",
               transform: "translate(-50%, -50%)",
               width: "480px",
@@ -200,13 +200,13 @@ export function HeroMorph() {
             ref={numberRef}
             style={{
               position: "absolute",
-              top: "14%",
+              top: "16%",
               left: "-10px",
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(160px, 22vw, 320px)",
+              fontSize: "clamp(180px, 26vw, 360px)",
               fontWeight: 800,
               color: "var(--text-high)",
-              opacity: 0.06,
+              opacity: 0.05,
               lineHeight: 0.8,
               pointerEvents: "none",
               zIndex: 0,
@@ -216,12 +216,12 @@ export function HeroMorph() {
             {currentService.number}
           </div>
 
-          {/* Foreground Editorial Text Content */}
-          <div style={{ position: "relative", zIndex: 2 }}>
+          {/* Foreground Editorial Text Content - Positioned at Bottom of VH */}
+          <div style={{ position: "relative", zIndex: 2, marginTop: "auto" }}>
             <div
               className="eyebrow"
               style={{
-                marginBottom: 20,
+                marginBottom: 16,
                 color: "var(--accent)",
                 display: "flex",
                 alignItems: "center",
@@ -242,12 +242,12 @@ export function HeroMorph() {
             <div ref={headlineRef}>
               <h1
                 style={{
-                  fontSize: "clamp(36px, 4.5vw, 68px)",
+                  fontSize: "clamp(34px, 4vw, 62px)",
                   fontFamily: "var(--font-display)",
                   fontWeight: 700,
                   lineHeight: 1.1,
                   color: "var(--text-high)",
-                  marginBottom: 24,
+                  marginBottom: 20,
                   letterSpacing: "-0.02em",
                 }}
               >
@@ -269,25 +269,25 @@ export function HeroMorph() {
             <div ref={descRef}>
               <p
                 style={{
-                  fontSize: "clamp(14px, 1.2vw, 17px)",
+                  fontSize: "clamp(14px, 1.1vw, 16px)",
                   color: "var(--text-muted)",
-                  lineHeight: 1.7,
-                  maxWidth: 480,
-                  marginBottom: 36,
+                  lineHeight: 1.6,
+                  maxWidth: 460,
+                  marginBottom: 32,
                 }}
               >
                 {currentService.description}
               </p>
             </div>
 
-            {/* CTA Button */}
-            <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            {/* CTA Buttons */}
+            <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
               <a href="/contact" className="btn-primary">
                 Book Consultation
                 <ArrowRight size={16} />
               </a>
               <a href="/services" className="btn-outline">
-                Explore All
+                Explore Work
               </a>
             </div>
           </div>
@@ -295,8 +295,7 @@ export function HeroMorph() {
           {/* Slide Dots / Counter Pagination */}
           <div
             style={{
-              marginTop: "auto",
-              paddingTop: 40,
+              paddingTop: 32,
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -340,7 +339,7 @@ export function HeroMorph() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Rotating Photography Showcase Frame with Parallax Imagery */}
+        {/* RIGHT COLUMN: Rotating High Quality Photography Showcase with Continuous Zoom Effect */}
         <div
           style={{
             position: "relative",
@@ -351,7 +350,7 @@ export function HeroMorph() {
             background: "#080808",
           }}
         >
-          {/* Rotating Image Crossfade Layers */}
+          {/* Rotating Image Layers with Continuous Subtle Zoom-in */}
           {servicesList.map((item, idx) => {
             const isActive = idx === serviceIndex;
             return (
@@ -361,9 +360,9 @@ export function HeroMorph() {
                   position: "absolute",
                   inset: 0,
                   opacity: isActive ? 1 : 0,
-                  transform: isActive ? "scale(1)" : "scale(1.06)",
+                  transform: isActive ? "scale(1.08)" : "scale(1.0)",
                   transition:
-                    "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                    "opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 5s ease-out",
                   zIndex: isActive ? 1 : 0,
                 }}
               >
@@ -373,15 +372,16 @@ export function HeroMorph() {
                   fill
                   style={{ objectFit: "cover" }}
                   priority={idx === 0}
+                  unoptimized={true}
                   sizes="(max-width: 900px) 100vw, 55vw"
                 />
-                {/* Subtle Theme Vignette */}
+                {/* Subtle Gradient Overlay */}
                 <div
                   style={{
                     position: "absolute",
                     inset: 0,
                     background:
-                      "linear-gradient(to right, rgba(11,11,11,0.4) 0%, transparent 40%, rgba(0,0,0,0.3) 100%)",
+                      "linear-gradient(to right, rgba(11,11,11,0.35) 0%, transparent 40%, rgba(0,0,0,0.25) 100%)",
                   }}
                 />
               </div>
