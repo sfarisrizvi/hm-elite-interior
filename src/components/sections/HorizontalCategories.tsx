@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight } from "lucide-react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 const categories = [
   {
@@ -57,123 +54,175 @@ const categories = [
 ];
 
 export function HorizontalCategories() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateScrollButtons = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  };
 
   useEffect(() => {
-    const section = sectionRef.current;
-    const track = trackRef.current;
-    if (!section || !track) return;
-
-    // Check if device is desktop vs touch mobile
-    const isMobile = window.innerWidth <= 768;
-
-    const ctx = gsap.context(() => {
-      if (!isMobile) {
-        // Calculate the total scrollable distance for desktop scrub
-        const totalWidth = track.scrollWidth - window.innerWidth;
-
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top top",
-          end: () => `+=${totalWidth}`,
-          pin: true,
-          scrub: 1,
-          snap: 1 / (categories.length - 1),
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            gsap.set(track, { x: -totalWidth * self.progress });
-          },
-        });
-      }
-
-      // Heading reveal
-      gsap.fromTo(
-        headingRef.current,
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => {
-      ctx.revert();
-    };
+    const el = scrollRef.current;
+    if (!el) return;
+    updateScrollButtons();
+    el.addEventListener("scroll", updateScrollButtons, { passive: true });
+    return () => el.removeEventListener("scroll", updateScrollButtons);
   }, []);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handlePointerLeaveOrUp = () => {
+    setIsDragging(false);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const scrollByAmount = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = scrollRef.current.clientWidth * 0.75;
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -amount : amount,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section
-      ref={sectionRef}
       id="categories"
-      className="horizontal-scroll-section"
+      className="section"
       style={{
         position: "relative",
-        height: "100vh",
-        overflow: "hidden",
         background: "var(--surface-elevated)",
+        paddingTop: "clamp(60px, 8vw, 120px)",
+        paddingBottom: "clamp(60px, 8vw, 120px)",
+        overflow: "hidden",
       }}
     >
-      {/* Section heading */}
-      <div
-        ref={headingRef}
-        style={{
-          position: "absolute",
-          top: 36,
-          left: 0,
-          zIndex: 5,
-          padding: "0 var(--container-padding)",
-        }}
-      >
-        <div className="eyebrow" style={{ marginBottom: 12 }}>
-          What We Do
+      <div className="container" style={{ marginBottom: 40 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            gap: 20,
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <RevealOnScroll>
+              <div className="eyebrow" style={{ marginBottom: 12 }}>
+                What We Do
+              </div>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.1}>
+              <h2 style={{ fontSize: "clamp(28px, 4.5vw, 52px)" }}>
+                Our <span style={{ color: "var(--accent)" }}>Specialities</span>
+              </h2>
+            </RevealOnScroll>
+          </div>
+
+          {/* Navigation Arrow Controls */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <button
+              onClick={() => scrollByAmount("left")}
+              disabled={!canScrollLeft}
+              aria-label="Scroll left"
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                background: "var(--surface)",
+                border: "1px solid var(--border-subtle)",
+                color: canScrollLeft ? "var(--text-high)" : "var(--text-dim)",
+                opacity: canScrollLeft ? 1 : 0.4,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: canScrollLeft ? "pointer" : "default",
+                transition: "all 0.3s ease",
+              }}
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <button
+              onClick={() => scrollByAmount("right")}
+              disabled={!canScrollRight}
+              aria-label="Scroll right"
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                background: "var(--surface)",
+                border: "1px solid var(--border-subtle)",
+                color: canScrollRight ? "var(--text-high)" : "var(--text-dim)",
+                opacity: canScrollRight ? 1 : 0.4,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: canScrollRight ? "pointer" : "default",
+                transition: "all 0.3s ease",
+              }}
+            >
+              <ChevronRight size={22} />
+            </button>
+          </div>
         </div>
-        <h2 style={{ fontSize: "clamp(26px, 4vw, 44px)", marginBottom: 16 }}>
-          Our <span style={{ color: "var(--accent)" }}>Specialities</span>
-        </h2>
       </div>
 
-      {/* Horizontal track */}
+      {/* Draggable Carousel Track */}
       <div
-        ref={trackRef}
-        className="specialities-track"
+        ref={scrollRef}
+        onPointerDown={handlePointerDown}
+        onPointerLeave={handlePointerLeaveOrUp}
+        onPointerUp={handlePointerLeaveOrUp}
+        onPointerMove={handlePointerMove}
         style={{
           display: "flex",
-          height: "100%",
-          paddingTop: 130,
-          paddingBottom: 40,
+          gap: 24,
+          overflowX: "auto",
           paddingLeft: "var(--container-padding)",
           paddingRight: "var(--container-padding)",
-          gap: 24,
-          alignItems: "center",
-          willChange: "transform",
+          paddingBottom: 20,
+          cursor: isDragging ? "grabbing" : "grab",
+          userSelect: "none",
+          scrollbarWidth: "none",
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch",
         }}
+        className="carousel-track"
       >
         {categories.map((cat, i) => (
           <div
             key={cat.slug}
-            className="category-card-wrapper"
             style={{
               flex: "0 0 auto",
-              width: "clamp(300px, 75vw, min(520px, calc(100vh - 220px)))",
+              width: "clamp(300px, 80vw, 460px)",
               aspectRatio: "1 / 1",
-              display: "flex",
-              alignItems: "stretch",
-              scrollSnapAlign: "center",
+              scrollSnapAlign: "start",
             }}
           >
             <div
               style={{
-                flex: 1,
+                width: "100%",
+                height: "100%",
                 position: "relative",
                 borderRadius: "var(--radius)",
                 overflow: "hidden",
@@ -183,21 +232,16 @@ export function HorizontalCategories() {
                 border: "1px solid var(--border-subtle)",
               }}
             >
-              {/* Background image */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  zIndex: 0,
-                }}
-              >
+              {/* Background Image */}
+              <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
                 <Image
                   src={cat.image}
                   alt={`${cat.title} by HM Elite Interiors`}
                   fill
                   style={{ objectFit: "cover" }}
-                  sizes="(max-width: 768px) 85vw, 520px"
+                  sizes="(max-width: 768px) 80vw, 460px"
                   priority={i === 0}
+                  draggable={false}
                 />
                 {/* Gradient overlay */}
                 <div
@@ -217,7 +261,7 @@ export function HorizontalCategories() {
                   top: 24,
                   right: 24,
                   fontFamily: "var(--font-display)",
-                  fontSize: 64,
+                  fontSize: 56,
                   fontWeight: 700,
                   color: "rgba(255,255,255,0.08)",
                   lineHeight: 1,
@@ -231,7 +275,7 @@ export function HorizontalCategories() {
                 style={{
                   position: "relative",
                   zIndex: 2,
-                  padding: "clamp(24px, 3.5vw, 40px)",
+                  padding: "clamp(24px, 3.5vw, 36px)",
                 }}
               >
                 <div
@@ -249,8 +293,8 @@ export function HorizontalCategories() {
                 <h3
                   style={{
                     color: "#FFFFFF",
-                    fontSize: "clamp(26px, 3.5vw, 40px)",
-                    marginBottom: 12,
+                    fontSize: "clamp(24px, 3vw, 36px)",
+                    marginBottom: 10,
                   }}
                 >
                   {cat.title}
@@ -259,11 +303,10 @@ export function HorizontalCategories() {
                   style={{
                     color: "rgba(255,255,255,0.75)",
                     fontSize: 14,
-                    maxWidth: 420,
-                    marginBottom: 20,
-                    lineHeight: 1.6,
+                    marginBottom: 16,
+                    lineHeight: 1.5,
                     display: "-webkit-box",
-                    WebkitLineClamp: 3,
+                    WebkitLineClamp: 2,
                     WebkitBoxOrient: "vertical",
                     overflow: "hidden",
                   }}
@@ -277,7 +320,7 @@ export function HorizontalCategories() {
                     display: "flex",
                     gap: 8,
                     flexWrap: "wrap",
-                    marginBottom: 24,
+                    marginBottom: 20,
                   }}
                 >
                   {cat.features.map((f) => (
@@ -301,7 +344,8 @@ export function HorizontalCategories() {
                 <a
                   href={`/services/${cat.slug}`}
                   className="btn-primary"
-                  style={{ width: "fit-content", padding: "12px 24px", fontSize: 13 }}
+                  style={{ width: "fit-content", padding: "10px 22px", fontSize: 13 }}
+                  draggable={false}
                 >
                   View {cat.title}
                   <ArrowRight size={15} />
@@ -313,29 +357,8 @@ export function HorizontalCategories() {
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .horizontal-scroll-section {
-            height: auto !important;
-            padding: 40px 0 60px !important;
-            overflow: visible !important;
-          }
-          .specialities-track {
-            padding-top: 100px !important;
-            padding-bottom: 20px !important;
-            overflow-x: auto !important;
-            scroll-snap-type: x mandatory !important;
-            -webkit-overflow-scrolling: touch !important;
-            touch-action: pan-x !important;
-            scrollbar-width: none;
-          }
-          .specialities-track::-webkit-scrollbar {
-            display: none;
-          }
-          .category-card-wrapper {
-            width: 82vw !important;
-            aspect-ratio: 1 / 1 !important;
-            scroll-snap-align: center !important;
-          }
+        .carousel-track::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
     </section>
