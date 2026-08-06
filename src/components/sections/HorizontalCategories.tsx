@@ -212,9 +212,9 @@ export function HorizontalCategories() {
         {categories.map((cat, i) => (
           <div
             key={cat.slug}
+            className="speciality-card"
             style={{
               flex: "0 0 auto",
-              width: "clamp(300px, 80vw, 460px)",
               aspectRatio: "1 / 1",
               scrollSnapAlign: "start",
             }}
@@ -239,7 +239,7 @@ export function HorizontalCategories() {
                   alt={`${cat.title} by HM Elite Interiors`}
                   fill
                   style={{ objectFit: "cover" }}
-                  sizes="(max-width: 768px) 80vw, 460px"
+                  sizes="(max-width: 1024px) 80vw, 640px"
                   priority={i === 0}
                   draggable={false}
                 />
@@ -249,7 +249,7 @@ export function HorizontalCategories() {
                     position: "absolute",
                     inset: 0,
                     background:
-                      "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.1) 100%)",
+                      "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.1) 100%)",
                   }}
                 />
               </div>
@@ -258,10 +258,10 @@ export function HorizontalCategories() {
               <div
                 style={{
                   position: "absolute",
-                  top: 24,
-                  right: 24,
+                  top: 28,
+                  right: 28,
                   fontFamily: "var(--font-display)",
-                  fontSize: 56,
+                  fontSize: "clamp(56px, 5vw, 80px)",
                   fontWeight: 700,
                   color: "rgba(255,255,255,0.08)",
                   lineHeight: 1,
@@ -275,7 +275,7 @@ export function HorizontalCategories() {
                 style={{
                   position: "relative",
                   zIndex: 2,
-                  padding: "clamp(24px, 3.5vw, 36px)",
+                  padding: "clamp(24px, 4vw, 48px)",
                 }}
               >
                 <div
@@ -285,7 +285,7 @@ export function HorizontalCategories() {
                     letterSpacing: "0.15em",
                     textTransform: "uppercase",
                     color: "var(--accent)",
-                    marginBottom: 6,
+                    marginBottom: 8,
                   }}
                 >
                   {cat.subtitle}
@@ -293,8 +293,8 @@ export function HorizontalCategories() {
                 <h3
                   style={{
                     color: "#FFFFFF",
-                    fontSize: "clamp(24px, 3vw, 36px)",
-                    marginBottom: 10,
+                    fontSize: "clamp(26px, 3.5vw, 42px)",
+                    marginBottom: 12,
                   }}
                 >
                   {cat.title}
@@ -302,11 +302,11 @@ export function HorizontalCategories() {
                 <p
                   style={{
                     color: "rgba(255,255,255,0.75)",
-                    fontSize: 14,
-                    marginBottom: 16,
-                    lineHeight: 1.5,
+                    fontSize: "clamp(14px, 1.2vw, 16px)",
+                    marginBottom: 20,
+                    lineHeight: 1.6,
                     display: "-webkit-box",
-                    WebkitLineClamp: 2,
+                    WebkitLineClamp: 3,
                     WebkitBoxOrient: "vertical",
                     overflow: "hidden",
                   }}
@@ -320,18 +320,18 @@ export function HorizontalCategories() {
                     display: "flex",
                     gap: 8,
                     flexWrap: "wrap",
-                    marginBottom: 20,
+                    marginBottom: 24,
                   }}
                 >
                   {cat.features.map((f) => (
                     <span
                       key={f}
                       style={{
-                        padding: "4px 12px",
+                        padding: "6px 14px",
                         borderRadius: 16,
                         background: "rgba(255,255,255,0.1)",
                         border: "1px solid rgba(255,255,255,0.15)",
-                        fontSize: 11,
+                        fontSize: 12,
                         color: "rgba(255,255,255,0.85)",
                         letterSpacing: "0.02em",
                       }}
@@ -344,11 +344,11 @@ export function HorizontalCategories() {
                 <a
                   href={`/services/${cat.slug}`}
                   className="btn-primary"
-                  style={{ width: "fit-content", padding: "10px 22px", fontSize: 13 }}
+                  style={{ width: "fit-content", padding: "12px 26px", fontSize: 13 }}
                   draggable={false}
                 >
                   View {cat.title}
-                  <ArrowRight size={15} />
+                  <ArrowRight size={16} />
                 </a>
               </div>
             </div>
@@ -359,6 +359,15 @@ export function HorizontalCategories() {
       <style>{`
         .carousel-track::-webkit-scrollbar {
           display: none;
+        }
+        .speciality-card {
+          width: clamp(300px, 80vw, 440px);
+        }
+        @media (min-width: 1024px) {
+          .speciality-card {
+            width: calc((100vw - var(--container-padding) * 2 - 24px) / 2) !important;
+            max-width: 640px !important;
+          }
         }
       `}</style>
     </section>
