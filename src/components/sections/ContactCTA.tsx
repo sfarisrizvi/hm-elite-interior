@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Phone, Mail, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, MapPin, ArrowUpRight } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 export function ContactCTA() {
@@ -50,7 +51,9 @@ export function ContactCTA() {
             <RevealOnScroll delay={0.3}>
               <div style={{ display: "flex", flexDirection: "column", gap: 18, marginBottom: 40 }}>
                 <a
-                  href="tel:+447490180898"
+                  href="https://wa.me/447466976460"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -73,9 +76,9 @@ export function ContactCTA() {
                       flexShrink: 0,
                     }}
                   >
-                    <Phone size={18} color="#FFFFFF" />
+                    <WhatsAppIcon size={20} color="#FFFFFF" />
                   </div>
-                  +44 7490 180898
+                  +44 7466 976460
                 </a>
                 <a
                   href="mailto:info@hmeliteinteriors.co.uk"

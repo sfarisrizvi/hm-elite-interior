@@ -1,6 +1,7 @@
 "use client";
 
-import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
+import { Mail, MapPin, Clock, Send } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 export function ContactPage() {
@@ -293,11 +294,11 @@ export function ContactPage() {
                 {/* Contact cards */}
                 {[
                   {
-                    icon: Phone,
-                    label: "Call Us",
-                    primary: "+44 7490 180898",
-                    secondary: "+44 07443 385861",
-                    href: "tel:+447490180898",
+                    icon: WhatsAppIcon,
+                    label: "WhatsApp Us",
+                    primary: "+44 7466 976460",
+                    secondary: "Phone: +44 07443 385861",
+                    href: "https://wa.me/447466976460",
                   },
                   {
                     icon: Mail,

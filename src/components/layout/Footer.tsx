@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin, ArrowUpRight } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 const footerServices = [
@@ -117,7 +118,9 @@ export function Footer() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <a
-                href="tel:+447490180898"
+                href="https://wa.me/447466976460"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -127,8 +130,8 @@ export function Footer() {
                   transition: "color 0.3s",
                 }}
               >
-                <Phone size={15} style={{ color: "var(--accent)" }} />
-                +44 7490 180898
+                <WhatsAppIcon size={15} color="var(--accent)" />
+                +44 7466 976460
               </a>
               <a
                 href="tel:+4407443385861"

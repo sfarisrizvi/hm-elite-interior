@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { Preloader } from "@/components/ui/Preloader";
 import { ThemeScript } from "@/components/ui/ThemeScript";
+import { WhatsAppChatWidget } from "@/components/ui/WhatsAppChatWidget";
 
 const michroma = Michroma({
   variable: "--font-display",
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main>{children}</main>
           <Footer />
         </SmoothScrollProvider>
+        <WhatsAppChatWidget />
         <GrainOverlay />
       </body>
     </html>

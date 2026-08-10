@@ -6,6 +6,7 @@ import { BeforeAfterSlider } from "@/components/sections/BeforeAfterSlider";
 import { BentoGrid } from "@/components/sections/BentoGrid";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { Showreel } from "@/components/sections/Showreel";
+import { TeamSection } from "@/components/sections/TeamSection";
 import { ContactCTA } from "@/components/sections/ContactCTA";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <BentoGrid />
       <WhyChooseUsSection />
       <Showreel />
+      <TeamSection />
       <ContactCTA />
     </>
   );

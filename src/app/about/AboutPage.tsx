@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Shield, Award, Users, Heart } from "lucide-react";
+import { TeamSection } from "@/components/sections/TeamSection";
 
 const values = [
   {
@@ -158,6 +159,9 @@ export function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Team Section */}
+      <TeamSection />
 
       {/* Stats band */}
       <section

@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Menu, X, ChevronDown, Phone, Mail } from "lucide-react";
+import { Menu, X, ChevronDown, Mail } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { LampToggle } from "@/components/ui/LampToggle";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -218,9 +219,11 @@ export function Header() {
 
         {/* Right side Actions: Pulsing Phone CTA & Long Wiggling Lamp Cord */}
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-          {/* Phone Badge CTA with Loop Pulse Glow Animation */}
+          {/* WhatsApp Badge CTA with Loop Pulse Glow Animation */}
           <a
-            href="tel:+447490180898"
+            href="https://wa.me/447466976460"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: "flex",
               alignItems: "center",
@@ -237,8 +240,8 @@ export function Header() {
             }}
             className="desktop-only phone-badge-btn"
           >
-            <Phone size={14} />
-            +44 7490 180898
+            <WhatsAppIcon size={16} color="#FFFFFF" />
+            +44 7466 976460
           </a>
 
           {/* Lamp Theme Switcher with extended cord and subtle wiggle */}
@@ -467,7 +470,9 @@ export function Header() {
           }}
         >
           <a
-            href="tel:+447490180898"
+            href="https://wa.me/447466976460"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: "flex",
               alignItems: "center",
@@ -482,8 +487,8 @@ export function Header() {
               boxShadow: "0 6px 20px var(--accent-glow)",
             }}
           >
-            <Phone size={18} />
-            +44 7490 180898
+            <WhatsAppIcon size={18} color="#FFFFFF" />
+            +44 7466 976460
           </a>
           <a
             href="mailto:info@hmeliteinteriors.co.uk"
