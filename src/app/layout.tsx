@@ -5,7 +5,6 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
-import { Preloader } from "@/components/ui/Preloader";
 import { ThemeScript } from "@/components/ui/ThemeScript";
 import { WhatsAppChatWidget } from "@/components/ui/WhatsAppChatWidget";
 
@@ -61,7 +60,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ThemeScript />
       </head>
       <body>
-        <Preloader />
         <SmoothScrollProvider>
           <Header />
           <main>{children}</main>
