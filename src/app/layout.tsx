@@ -1,3 +1,4 @@
+// Root layout for HM Elite Interiors website
 import type { Metadata } from "next";
 import { Michroma, Outfit } from "next/font/google";
 import "./globals.css";
