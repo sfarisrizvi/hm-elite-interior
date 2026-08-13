@@ -8,14 +8,14 @@ const teamMembers = [
   {
     name: "Harinder Singh",
     role: "CEO & Founder",
-    image: "/Harinder Singh - CEO.jpeg",
+    image: "/Harinder Singh - CEO.png",
     bio: "Passionate about bespoke interior design and precision engineering. Harinder leads HM Elite Interiors with a vision for exceptional UK-made craftsmanship.",
     expertise: "Executive Leadership & Project Vision",
   },
   {
     name: "Manpreet Kaur",
     role: "CEO & Founder",
-    image: "/manpreet kaur - CEO.jpeg",
+    image: "/manpreet kaur - CEO.png",
     bio: "Dedicated to transforming living spaces through creative innovation and customer-focused design. Manpreet ensures every project exceeds client expectations.",
     expertise: "Design Direction & Client Excellence",
   },
@@ -91,7 +91,7 @@ export function TeamSection() {
                   style={{
                     position: "relative",
                     width: "100%",
-                    aspectRatio: "4/5",
+                    aspectRatio: "1/1",
                     overflow: "hidden",
                     background: "var(--surface-card)",
                   }}
@@ -102,7 +102,7 @@ export function TeamSection() {
                     fill
                     style={{
                       objectFit: "cover",
-                      objectPosition: "top center",
+                      objectPosition: "center 10%",
                       transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
                     sizes="(max-width: 768px) 100vw, 500px"
