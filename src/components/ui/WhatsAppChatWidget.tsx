@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { X, Send, MessageSquare } from "lucide-react";
+import { X, Send } from "lucide-react";
 
 export function WhatsAppChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,10 +11,14 @@ export function WhatsAppChatWidget() {
   const [message, setMessage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const toggleOpen = (open: boolean) => {
+    setIsOpen(open);
+    if (open) setShowTooltip(false);
+  };
+
   // Auto-focus input when chat opens
   useEffect(() => {
     if (isOpen) {
-      setShowTooltip(false);
       setTimeout(() => inputRef.current?.focus(), 150);
     }
   }, [isOpen]);
@@ -97,7 +101,7 @@ export function WhatsAppChatWidget() {
                 letterSpacing: "0.05em",
               }}
             >
-              HM Elite Concierge
+              HM Elite Interiors
             </div>
             &quot;Let&apos;s cut the clutter and let me point you to straight into what you need&quot;
           </div>
@@ -144,10 +148,10 @@ export function WhatsAppChatWidget() {
                 }}
               >
                 <Image
-                  src="/logo.png"
+                  src="/favicon.svg"
                   alt="HM Elite Interiors"
                   fill
-                  style={{ objectFit: "contain", padding: 4 }}
+                  style={{ objectFit: "contain" }}
                 />
               </div>
               <div>
@@ -232,7 +236,7 @@ export function WhatsAppChatWidget() {
                   textTransform: "uppercase",
                 }}
               >
-                HM Elite Concierge
+                HM Elite Interiors
               </div>
               Let&apos;s cut the clutter and let me point you to straight into what you need
             </div>
@@ -295,7 +299,7 @@ export function WhatsAppChatWidget() {
 
       {/* Floating Green WhatsApp Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => toggleOpen(!isOpen)}
         style={{
           width: 56,
           height: 56,

@@ -92,24 +92,14 @@ export function Footer() {
         >
           {/* Brand column */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <div style={{ marginBottom: 20 }}>
               <Image
-                src="/logo.png"
+                src="/logo.svg"
                 alt="HM Elite Interiors"
-                width={52}
-                height={52}
-                style={{ objectFit: "contain" }}
+                width={210}
+                height={56}
+                style={{ objectFit: "contain", height: "auto" }}
               />
-              <h4
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: 20,
-                  fontWeight: 700,
-                  margin: 0,
-                }}
-              >
-                HM <span style={{ color: "var(--accent)" }}>ELITE</span>
-              </h4>
             </div>
             <p style={{ fontSize: 14, lineHeight: 1.8, marginBottom: 28 }}>
               We specialise in designing and manufacturing high-quality,

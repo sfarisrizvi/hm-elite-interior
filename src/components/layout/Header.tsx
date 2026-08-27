@@ -99,25 +99,15 @@ export function Header() {
         }}
       >
         {/* Left: Logo aligned with heading */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="HM Elite Interiors"
-            width={40}
-            height={40}
-            style={{ objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))" }}
+            width={185}
+            height={50}
+            style={{ objectFit: "contain", height: "auto" }}
+            priority
           />
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: 19,
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              color: "var(--text-high)",
-            }}
-          >
-            HM <span style={{ color: "var(--accent)" }}>ELITE</span>
-          </span>
         </Link>
 
         {/* Center: Desktop Nav Floating Pill overlapping right image section */}
@@ -315,24 +305,15 @@ export function Header() {
             marginBottom: 24,
           }}
         >
-          <Link href="/" onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <Link href="/" onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center" }}>
             <Image
-              src="/logo.png"
+              src="/logo.svg"
               alt="HM Elite Interiors"
-              width={38}
-              height={38}
-              style={{ objectFit: "contain" }}
+              width={165}
+              height={44}
+              style={{ objectFit: "contain", height: "auto" }}
+              priority
             />
-            <span
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: 18,
-                fontWeight: 700,
-                color: "var(--text-high)",
-              }}
-            >
-              HM <span style={{ color: "var(--accent)" }}>ELITE</span>
-            </span>
           </Link>
 
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 149.52 117.23">
+  <defs>
+    <linearGradient id="linear-gradient" x1="14.28" y1="133.07" x2="140.33" y2="33.98" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f6c698"/>
+      <stop offset="1" stop-color="#9d603c"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="30.59" y1="153.83" x2="156.65" y2="54.73" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="-15.05" y1="95.77" x2="111.01" y2="-3.33" xlink:href="#linear-gradient"/>
+  </defs>
+  <g>
+    <polygon fill="url(#linear-gradient)" points="106.8 61.88 106.8 117.2 85.31 117.21 85.31 74.3 63.98 62 63.85 61.84 63.94 37.17 106.8 61.88"/>
+    <polygon fill="url(#linear-gradient-2)" points="149.52 61.88 149.52 117.2 128.03 117.21 128.03 74.3 106.7 62 106.57 61.84 106.66 37.17 149.52 61.88"/>
+    <polygon fill="url(#linear-gradient-3)" points="64.44 62 64.44 117.22 42.9 117.2 42.88 74.29 21.49 61.98 21.49 117.21 0 117.23 0 0 21.46 12.34 21.5 37.16 64.32 61.84 64.44 62"/>
+  </g>
+</svg>

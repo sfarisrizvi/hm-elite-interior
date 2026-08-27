@@ -22,6 +22,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://hmeliteinteriors.co.uk"),
   title: "HM Elite Interiors — Bespoke Fitted Furniture & Interior Design | UK",
   description:
     "HM Elite specialises in designing and manufacturing high-quality, made-to-measure fitted bedrooms, kitchens, loft conversions, home offices, and more. Proudly crafted in the UK.",
@@ -35,11 +36,10 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: "/logo.png", type: "image/png" },
-      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
     ],
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
   openGraph: {
     title: "HM Elite Interiors — Bespoke Fitted Furniture & Interior Design",
@@ -47,6 +47,21 @@ export const metadata: Metadata = {
       "Premium bespoke interior solutions — fitted kitchens, bedrooms, walls, walk-in wardrobes and more. Made to measure in the UK.",
     type: "website",
     locale: "en_GB",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "HM Elite Interiors — Bespoke Fitted Furniture & Interior Design",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HM Elite Interiors — Bespoke Fitted Furniture & Interior Design",
+    description:
+      "Premium bespoke interior solutions — fitted kitchens, bedrooms, walls, walk-in wardrobes and more. Made to measure in the UK.",
+    images: ["/og-image.png"],
   },
 };
 
