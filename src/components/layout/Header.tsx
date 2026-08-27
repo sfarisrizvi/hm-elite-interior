@@ -211,7 +211,7 @@ export function Header() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
           {/* WhatsApp Badge CTA with Loop Pulse Glow Animation */}
           <a
-            href="https://wa.me/447466976460"
+            href="https://wa.me/447490180898"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -231,7 +231,7 @@ export function Header() {
             className="desktop-only phone-badge-btn"
           >
             <WhatsAppIcon size={16} color="#FFFFFF" />
-            +44 7466 976460
+            +44 7490 180898
           </a>
 
           {/* Lamp Theme Switcher with extended cord and subtle wiggle */}
@@ -451,7 +451,7 @@ export function Header() {
           }}
         >
           <a
-            href="https://wa.me/447466976460"
+            href="https://wa.me/447490180898"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -469,7 +469,7 @@ export function Header() {
             }}
           >
             <WhatsAppIcon size={18} color="#FFFFFF" />
-            +44 7466 976460
+            +44 7490 180898
           </a>
           <a
             href="mailto:info@hmeliteinteriors.co.uk"

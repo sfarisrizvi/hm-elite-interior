@@ -230,7 +230,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                     Get a Free Quote
                   </a>
                   <a
-                    href="https://wa.me/447466976460"
+                    href="https://wa.me/447490180898"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
@@ -244,7 +244,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                       fontWeight: 600,
                     }}
                   >
-                    <WhatsAppIcon size={16} color="var(--accent)" /> +44 7466 976460
+                    <WhatsAppIcon size={16} color="var(--accent)" /> +44 7490 180898
                   </a>
                 </div>
               </div>

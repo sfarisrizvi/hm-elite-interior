@@ -26,7 +26,7 @@ export function WhatsAppChatWidget() {
   const handleSendMessage = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     const textToSend = message.trim() || "Hi HM Elite Interiors, I would like to inquire about your services.";
-    const whatsappUrl = `https://wa.me/447466976460?text=${encodeURIComponent(textToSend)}`;
+    const whatsappUrl = `https://wa.me/447490180898?text=${encodeURIComponent(textToSend)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     setMessage("");
     setIsOpen(false);

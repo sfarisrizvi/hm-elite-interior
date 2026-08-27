@@ -296,9 +296,9 @@ export function ContactPage() {
                   {
                     icon: WhatsAppIcon,
                     label: "WhatsApp Us",
-                    primary: "+44 7466 976460",
+                    primary: "+44 7490 180898",
                     secondary: "Phone: +44 07443 385861",
-                    href: "https://wa.me/447466976460",
+                    href: "https://wa.me/447490180898",
                   },
                   {
                     icon: Mail,

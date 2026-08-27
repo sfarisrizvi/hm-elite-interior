@@ -108,7 +108,7 @@ export function Footer() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <a
-                href="https://wa.me/447466976460"
+                href="https://wa.me/447490180898"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -121,7 +121,7 @@ export function Footer() {
                 }}
               >
                 <WhatsAppIcon size={15} color="var(--accent)" />
-                +44 7466 976460
+                +44 7490 180898
               </a>
               <a
                 href="tel:+4407443385861"

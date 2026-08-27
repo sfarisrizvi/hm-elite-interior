@@ -51,7 +51,7 @@ export function ContactCTA() {
             <RevealOnScroll delay={0.3}>
               <div style={{ display: "flex", flexDirection: "column", gap: 18, marginBottom: 40 }}>
                 <a
-                  href="https://wa.me/447466976460"
+                  href="https://wa.me/447490180898"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -78,7 +78,7 @@ export function ContactCTA() {
                   >
                     <WhatsAppIcon size={20} color="#FFFFFF" />
                   </div>
-                  +44 7466 976460
+                  +44 7490 180898
                 </a>
                 <a
                   href="mailto:info@hmeliteinteriors.co.uk"
