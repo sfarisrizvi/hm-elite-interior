@@ -287,9 +287,34 @@ export function Footer() {
           <p style={{ fontSize: 13, color: "var(--text-dim)" }}>
             © {new Date().getFullYear()} HM Elite Interiors. All rights reserved.
           </p>
-          <p style={{ fontSize: 13, color: "var(--text-dim)" }}>
-            Proudly crafted in the United Kingdom
-          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <button
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new Event("openCookieSettings"));
+                }
+              }}
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                fontSize: 13,
+                color: "var(--text-dim)",
+                cursor: "pointer",
+                textDecoration: "underline",
+                textUnderlineOffset: 3,
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-dim)")}
+            >
+              Cookie Settings
+            </button>
+            <span style={{ fontSize: 13, color: "var(--text-dim)" }}>•</span>
+            <p style={{ fontSize: 13, color: "var(--text-dim)", margin: 0 }}>
+              Proudly crafted in the United Kingdom
+            </p>
+          </div>
         </div>
       </div>
 

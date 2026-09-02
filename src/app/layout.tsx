@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { ThemeScript } from "@/components/ui/ThemeScript";
 import { WhatsAppChatWidget } from "@/components/ui/WhatsAppChatWidget";
+import { CookieConsent } from "@/components/ui/CookieConsent";
 
 const michroma = Michroma({
   variable: "--font-display",
@@ -79,6 +80,40 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <ThemeScript />
         <Script
+          id="google-consent-mode"
+          strategy="beforeInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+
+            var savedConsent = null;
+            try {
+              var raw = localStorage.getItem('hm_cookie_consent_v2');
+              if (raw) {
+                savedConsent = JSON.parse(raw);
+              }
+            } catch (e) {}
+
+            if (savedConsent) {
+              gtag('consent', 'default', {
+                'analytics_storage': savedConsent.analytics ? 'granted' : 'denied',
+                'ad_storage': savedConsent.marketing ? 'granted' : 'denied',
+                'ad_user_data': savedConsent.marketing ? 'granted' : 'denied',
+                'ad_personalization': savedConsent.marketing ? 'granted' : 'denied'
+              });
+            } else {
+              gtag('consent', 'default', {
+                'analytics_storage': 'denied',
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'wait_for_update': 500
+              });
+            }
+          `}
+        </Script>
+        <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-S2ED08ZFFZ"
         />
@@ -102,6 +137,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
         </SmoothScrollProvider>
         <WhatsAppChatWidget />
+        <CookieConsent />
         <GrainOverlay />
       </body>
     </html>
