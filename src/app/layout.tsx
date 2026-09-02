@@ -79,56 +79,46 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <ThemeScript />
-        <Script
-          id="google-consent-mode"
-          strategy="beforeInteractive"
-        >
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
 
-            var savedConsent = null;
-            try {
-              var raw = localStorage.getItem('hm_cookie_consent_v2');
-              if (raw) {
-                savedConsent = JSON.parse(raw);
+              var savedConsent = null;
+              try {
+                var raw = localStorage.getItem('hm_cookie_consent_v2');
+                if (raw) {
+                  savedConsent = JSON.parse(raw);
+                }
+              } catch (e) {}
+
+              if (savedConsent && savedConsent.analytics) {
+                gtag('consent', 'default', {
+                  'analytics_storage': 'granted',
+                  'ad_storage': savedConsent.marketing ? 'granted' : 'denied',
+                  'ad_user_data': savedConsent.marketing ? 'granted' : 'denied',
+                  'ad_personalization': savedConsent.marketing ? 'granted' : 'denied'
+                });
+              } else {
+                gtag('consent', 'default', {
+                  'analytics_storage': 'denied',
+                  'ad_storage': 'denied',
+                  'ad_user_data': 'denied',
+                  'ad_personalization': 'denied',
+                  'wait_for_update': 500
+                });
               }
-            } catch (e) {}
 
-            if (savedConsent) {
-              gtag('consent', 'default', {
-                'analytics_storage': savedConsent.analytics ? 'granted' : 'denied',
-                'ad_storage': savedConsent.marketing ? 'granted' : 'denied',
-                'ad_user_data': savedConsent.marketing ? 'granted' : 'denied',
-                'ad_personalization': savedConsent.marketing ? 'granted' : 'denied'
-              });
-            } else {
-              gtag('consent', 'default', {
-                'analytics_storage': 'denied',
-                'ad_storage': 'denied',
-                'ad_user_data': 'denied',
-                'ad_personalization': 'denied',
-                'wait_for_update': 500
-              });
-            }
-          `}
-        </Script>
+              gtag('js', new Date());
+              gtag('config', 'G-S2ED08ZFFZ');
+            `,
+          }}
+        />
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-S2ED08ZFFZ"
         />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-        >
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-S2ED08ZFFZ');
-          `}
-        </Script>
       </head>
       <body>
         <SmoothScrollProvider>
