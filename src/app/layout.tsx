@@ -85,30 +85,34 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
 
-              var savedConsent = null;
+              // 1. Default Consent State (EU/UK GDPR compliant)
+              gtag('consent', 'default', {
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'analytics_storage': 'denied',
+                'wait_for_update': 500
+              });
+
+              // 2. Restore saved user consent preferences if already granted
               try {
                 var raw = localStorage.getItem('hm_cookie_consent_v2');
                 if (raw) {
-                  savedConsent = JSON.parse(raw);
+                  var saved = JSON.parse(raw);
+                  if (saved && saved.analytics) {
+                    gtag('consent', 'update', {
+                      'analytics_storage': 'granted',
+                      'ad_storage': saved.marketing ? 'granted' : 'denied',
+                      'ad_user_data': saved.marketing ? 'granted' : 'denied',
+                      'ad_personalization': saved.marketing ? 'granted' : 'denied'
+                    });
+                  }
                 }
               } catch (e) {}
 
-              if (savedConsent && savedConsent.analytics) {
-                gtag('consent', 'default', {
-                  'analytics_storage': 'granted',
-                  'ad_storage': savedConsent.marketing ? 'granted' : 'denied',
-                  'ad_user_data': savedConsent.marketing ? 'granted' : 'denied',
-                  'ad_personalization': savedConsent.marketing ? 'granted' : 'denied'
-                });
-              } else {
-                gtag('consent', 'default', {
-                  'analytics_storage': 'denied',
-                  'ad_storage': 'denied',
-                  'ad_user_data': 'denied',
-                  'ad_personalization': 'denied',
-                  'wait_for_update': 500
-                });
-              }
+              // 3. Privacy enhancement features
+              gtag('set', 'ads_data_redaction', true);
+              gtag('set', 'url_passthrough', true);
 
               gtag('js', new Date());
               gtag('config', 'G-S2ED08ZFFZ');
