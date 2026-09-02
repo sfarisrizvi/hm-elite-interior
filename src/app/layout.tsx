@@ -1,5 +1,6 @@
 // Root layout for HM Elite Interiors website
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Michroma, Outfit } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -63,6 +64,9 @@ export const metadata: Metadata = {
       "Premium bespoke interior solutions — fitted kitchens, bedrooms, walls, walk-in wardrobes and more. Made to measure in the UK.",
     images: ["/og-image.png"],
   },
+  verification: {
+    google: "ifxPlf1JoFzPmdG3g1d-1-zf-McHg94-8kHVnAmWgtE",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -74,6 +78,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <ThemeScript />
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-S2ED08ZFFZ"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-S2ED08ZFFZ');
+          `}
+        </Script>
       </head>
       <body>
         <SmoothScrollProvider>
